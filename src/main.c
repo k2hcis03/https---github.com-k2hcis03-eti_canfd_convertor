@@ -1,3 +1,8 @@
+/*
+2022-08-01
+@K2H
+- LED2 기능 추가 : 컨버터에서 CAN으로 데이터 전송 시, LED 토글
+*/
 #include "main.h"
 
 // abstract:
@@ -244,7 +249,8 @@ int  main ( void)
 {
 	uint8_t toggle_first = 0;
 	uint8_t uart_status = idle_status;
-	uint8_t toggle = 0;
+	uint8_t led1_toggle = 0;
+	uint8_t led2_toggle = 0;
 	// init hardware and timer 0. Timer 0 is free running
 	// with 1 us resolution without any IRQ.
 	HW_Init();
@@ -274,13 +280,12 @@ int  main ( void)
 		uint8_t  ser_read;
 		uint8_t * status;
 		uint8_t temp;
-		
 
 		// process messages from CAN1
 		if ( CAN_UserRead ( CAN_BUS1, &RxMsg) == CAN_ERR_OK)
 		{
 			// message received from CAN1
-			if ((toggle++ % 5) == 0){
+			if ((led1_toggle++ % 5) == 0){
 				LED_toggleCAN1 ^= 1;
 			}
 
@@ -358,6 +363,14 @@ int  main ( void)
 		
 		if (uart_status == idle_status){
 			uart_data.uart_ready = 0;
+
+			if (led2_toggle){
+				HW_SetLED ( HW_LED_CAN2, HW_LED_ORANGE);		//명령어가 들어오면 LED는 오렌지 색
+			}else{
+				HW_SetLED ( HW_LED_CAN2, HW_LED_GREEN);			//명령어가 들어오면 LED는 그린 색
+			}
+			
+
 			if (serstat == SER_ERR_OK && ser_read > 0 ){
 				if (temp == STX){
 					uart_status = stx_status;
@@ -407,6 +420,7 @@ int  main ( void)
 					uart_data.uart_ready = 0;
 				}
 				uart_status = idle_status;
+				led2_toggle = !led2_toggle;
 			}
 		}
 		if ( uart_data.uart_ready ){
@@ -462,7 +476,7 @@ int  main ( void)
 						user_tx[3] = CAN_CNT;
 						SER_Write ( SER_PORT1, user_tx, DUMMY-1);
 						
-						SER_Write ( SER_PORT1, status, CAN_CNT);
+						SER_Write ( SER_PORT1, status, CAN_CNT);	//status is pointer for data
 						user_tx[4] = ETX;
 						SER_Write ( SER_PORT1, &user_tx[4], 1);
 					}else{
