@@ -5,3 +5,5 @@
 /obj
 /out
 /pcan_router_fd.ld
+src/main copy.c
+src/main.c11.c
