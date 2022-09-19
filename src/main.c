@@ -289,15 +289,15 @@ int  main ( void)
 				LED_toggleCAN1 ^= 1;
 			}
 
-			if ( LED_toggleCAN1)
+			if ( LED_toggleCAN1)  
 			{
 				HW_SetLED ( HW_LED_CAN1, HW_LED_ORANGE);
 			}
-			
+			   
 			else
 			{
 				HW_SetLED ( HW_LED_CAN1, HW_LED_GREEN);
-			}
+			}   
 			// catch ID  to send on serial as ascii
 			// 전원 인가 응답 및 장비 응답
 			//if ( RxMsg.id == 0x20 && (RxMsg.msgtype == CAN_MSGTYPE_EXTENDED || RxMsg.msgtype == CAN_MSGTYPE_STANDARD || RxMsg.msgtype == CAN_MSGTYPE_FDF))
