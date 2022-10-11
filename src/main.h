@@ -1,21 +1,26 @@
-
 #ifndef  _MAIN_H_
 #define  _MAIN_H_
   
 #define	USER_TEXT_SIZE		64
 #define	USER_TX_SIZE		64
 
-#define TYPE				0x01
-#define STX					0x02
-#define ETX					0x03
-#define CMD					0x02
-#define CNT					0x03
-#define DUMMY				0x05
+#define _TYPE				0x01
+#define _STX				0x02
+#define _ETX				0x03
+#define _CMD				0x02
+#define _CNT				0x03
+#define _DUMMY				0x05
 
-//#define MAX 		50          //버퍼 사이즈 5초
-#define MAX 		10          //버퍼 사이즈 1초
-//#define CAN_CNT		160+4+1             //can data 160 + nid + count
-#define CAN_CNT		80+4+1             //can data 80 + nid + count
+//#define MAX 		50                      //버퍼 사이즈 5초
+#define MAX 		10                      //버퍼 사이즈 1초
+//#define CAN_CNT	160+4+1             //can data 160 + nid + count
+#define CAN_CNT		64+4+1                  //can data 64 + nid + count <-- voltage  can data 48 + nid + count <-- temp 
+#define VOLT_CNT	64
+#define TEMP_CNT	48
+
+#define	MSG_100_PERIOD_US		100000          //0.1초
+#define VOLTAGE_CAN_LENGTH      64
+#define TEMP_CAN_LENGTH         48
 
 #include <stdint.h>
 #include "can.h"
@@ -26,6 +31,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "ARMCM4_FP.h"
+#include "lpc407x_8x_177x_8x.h"
+#include "systime.h"
 
 typedef struct{
 	uint8_t data[CAN_CNT];
@@ -59,5 +68,6 @@ int is_full(void);
 void clear_queue(void);
 void set_can_id(uint8_t *data, uint8_t dlc);
 void send_direct(uint8_t *data, uint8_t dlc);
+void set_sampling_time(uint8_t *data, uint8_t dle);
 #endif
 

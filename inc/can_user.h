@@ -20,6 +20,7 @@
 #define	_80M__33K_80__500K_80_ISO		{ CAN_CLOCK_80M,         24,    79,    20,   1,         96,  0,   1,        16,     7,     2,   1}		// 80 MHz,  33K333 80%, 500K 80%, ISO
 #define _80M__32K_80__500K_80_ISO       { CAN_CLOCK_80M,         1,    127,    32,   32,         96,  0,   1,        1,     19,     5,  5}      // 80 MHz,  32K 80%, 500K 80%, ISO
 
+#define	_80M_500K_80____2M_80_ISO		{ CAN_CLOCK_80M,          1,   127,    32,   1,         96,  0,   1,         2,    15,     4,   1}		// 80 MHz, 500K    80%,   4M 80%, ISO
 
 
 // user function protos

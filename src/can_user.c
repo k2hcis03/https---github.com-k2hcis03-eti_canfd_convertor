@@ -7,13 +7,20 @@
 
 
 
+#if 0 //rev 1
 // timings for CAN1 and CAN2
 static const CANTiming_t  Timing_CANx[2] = {
 _80M__32K_80__500K_80_ISO,	  // CAN1
 //_80M_500K_80____4M_80_ISO,	  // CAN1
 _80M_500K_80____4M_80_ISO	  // CAN2
 };
-
+#else
+// timings for CAN1 and CAN2
+static const CANTiming_t  Timing_CANx[2] = {
+_80M_500K_80____2M_80_ISO,	  // CAN1
+_80M_500K_80____2M_80_ISO	  // CAN2
+};
+#endif
 
 // use bugfix if FPGA version is 3 or earlier. Code below is for version 4 or later.
 //static uint8_t  busOFF[2];
