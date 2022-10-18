@@ -471,7 +471,7 @@ int  main ( void)
 				uart_status = idle_status;
 				// led2_toggle = !led2_toggle;
 			}
-		}
+		} 
 		if ( uart_data.uart_ready ){
 			switch (uart_data.cmd){
 				case 0xC0:										//전원 인가 확인
