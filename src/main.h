@@ -1,8 +1,8 @@
 #ifndef  _MAIN_H_
 #define  _MAIN_H_
   
-#define	USER_TEXT_SIZE		64
-#define	USER_TX_SIZE		64
+#define	USER_TEXT_SIZE		70
+#define	USER_TX_SIZE		70
 
 #define _TYPE				0x01
 #define _STX				0x02

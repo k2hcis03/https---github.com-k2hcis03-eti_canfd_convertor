@@ -164,8 +164,27 @@ void send_direct(uint8_t *data, uint8_t dlc)
 	CANTxMsg_t  Msg;
 
 	Msg.bufftype = CAN_BUFFER_TX_MSG;
-	Msg.dlc      = data[4]; //dlc;
-	Msg.msgtype  = CAN_MSGTYPE_STANDARD | CAN_MSGTYPE_FDF;
+	//Msg.dlc      = data[4]; //dlc;
+
+	if (data[4] <= 8){
+		//Msg.dlc
+	}else if(data[4] >= 9 && data[4] <= 12){
+		Msg.dlc = 0x09;
+	}else if(data[4] >= 13 && data[4] <= 16){
+		Msg.dlc = 0x0A;
+	}else if(data[4] >= 17 && data[4] <= 20){
+		Msg.dlc = 0x0B;
+	}else if(data[4] >= 21 && data[4] <= 24){
+		Msg.dlc = 0x0C;
+	}else if(data[4] >= 25 && data[4] <= 28){
+		Msg.dlc = 0x0D;
+	}else if(data[4] >= 29 && data[4] <= 32){
+		Msg.dlc = 0x0E;
+	}else if(data[4] >= 33 && data[4] <= 64){
+		Msg.dlc = 0x0F;
+	}
+
+	Msg.msgtype  = CAN_MSGTYPE_STANDARD | CAN_MSGTYPE_FDF | CAN_MSGTYPE_BRS;
 #if 0
 	Msg.id       = 0x10;
 	
@@ -175,7 +194,11 @@ void send_direct(uint8_t *data, uint8_t dlc)
 #else
 	Msg.id = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];		
 	
-	for (uint8_t i = 0; i < Msg.dlc; i++){
+	for (uint8_t i = 0; i < 64; i++){
+		Msg.data8[i] = 0x00;
+	}
+
+	for (uint8_t i = 0; i < data[4]; i++){
 		Msg.data8[i] = data[5+i];
 	}
 #endif
@@ -457,7 +480,7 @@ int  main ( void)
 				uart_data.data[uart_data.temp++] = temp;
 				if (uart_data.temp == uart_data.dlc){
 					uart_status = etx_status;
-				}else if(uart_data.temp >= 30){		//데이터가 30개 이상이면 idle상태로 들어감
+				}else if(uart_data.temp > USER_TEXT_SIZE){		//데이터가 70개 이상이면 idle상태로 들어감
 					uart_status = idle_status;
 				}
 			}
