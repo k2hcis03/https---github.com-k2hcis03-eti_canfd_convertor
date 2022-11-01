@@ -167,7 +167,7 @@ void send_direct(uint8_t *data, uint8_t dlc)
 	//Msg.dlc      = data[4]; //dlc;
 
 	if (data[4] <= 8){
-		//Msg.dlc
+		Msg.dlc = data[4]; 
 	}else if(data[4] >= 9 && data[4] <= 12){
 		Msg.dlc = 0x09;
 	}else if(data[4] >= 13 && data[4] <= 16){
